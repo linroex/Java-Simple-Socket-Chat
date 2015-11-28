@@ -51,11 +51,10 @@ public class SimpleChat {
             while (true) {
                 try {
                     Socket socket = this.server.accept();
-                    System.out.println(SimpleChat.clients.size());
 
                     System.out.println("Connect success:" + socket.getInetAddress());
 
-                    SimpleChat.clients.add(socket);
+                    clients.add(socket);
 
                     Thread ReceiverThread = new Thread(new ReceiverRunnable(socket, "name"));
                     ReceiverThread.start();
