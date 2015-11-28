@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package simplechat;
-
-import simplechat.SimpleChat;
 /**
  *
  * @author linroex
@@ -18,12 +16,10 @@ public class ChatFrame extends javax.swing.JFrame {
      */
     public ChatFrame() {
         initComponents();
-        this.setVisible(true);
         
         this.simpleChat = new SimpleChat();
     }
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,6 +47,11 @@ public class ChatFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(MessageTextArea);
 
         ListenBtn.setText("Listen");
+        ListenBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListenBtnActionPerformed(evt);
+            }
+        });
 
         ConnectBtn.setText("Connect");
 
@@ -111,6 +112,10 @@ public class ChatFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ListenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListenBtnActionPerformed
+        this.simpleChat.listen();
+    }//GEN-LAST:event_ListenBtnActionPerformed
 
     /**
      * @param args the command line arguments
