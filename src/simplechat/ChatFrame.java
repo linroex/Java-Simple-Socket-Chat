@@ -5,18 +5,24 @@
  */
 package simplechat;
 
+import simplechat.SimpleChat;
 /**
  *
  * @author linroex
  */
 public class ChatFrame extends javax.swing.JFrame {
-
+    private final SimpleChat simpleChat;
+    
     /**
      * Creates new form ChatFrame
      */
     public ChatFrame() {
         initComponents();
+        this.setVisible(true);
+        
+        this.simpleChat = new SimpleChat();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
