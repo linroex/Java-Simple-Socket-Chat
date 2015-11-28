@@ -20,14 +20,14 @@ import java.util.ArrayList;
  * @author linroex
  */
 public class SimpleChat {
-    private static ArrayList<Socket> clients;
+    private final ArrayList<Socket> clients;
     private DataInputStream input;
     private DataOutputStream output;
     
     private final int port = 6543;
     
     public SimpleChat() {
-        
+        this.clients = new ArrayList();
     }
     
     public void listen() {
