@@ -21,10 +21,8 @@ import java.util.ArrayList;
  */
 public class SimpleChat {
     private final ArrayList<Socket> clients;
-    private DataInputStream input;
-    private DataOutputStream output;
-    
     private final int port = 6543;
+    private DataOutputStream output;
     
     public SimpleChat() {
         this.clients = new ArrayList();
@@ -39,11 +37,13 @@ public class SimpleChat {
         private ServerSocket server;
         
         public ListenRunnable(int port) {
+            
             try {
                 this.server = new ServerSocket(port);
             } catch (IOException e) {
                 System.out.println("ServerSocket init failed:" + e.getMessage());
             }
+            
         }
         
         @Override
@@ -69,15 +69,34 @@ public class SimpleChat {
     private class ReceiverRunnable implements Runnable {
         private final Socket socket;
         private final String name;
-        
+        private DataInputStream input;
+                
         public ReceiverRunnable(Socket socket, String name) {
             this.socket = socket;
             this.name = name;
+            
+            try {
+                this.input = new DataInputStream(socket.getInputStream());
+            } catch (IOException e) {
+                
+                System.out.println("Receiver socket input stream failed:" + e.getMessage());
+            }
         }
         
         @Override
         public void run() {
+            boolean flag = true;
+            
             System.out.println("listen..." + this.socket.getInetAddress());
+            
+            while(flag) {
+                try {
+                    System.out.println(this.input.readUTF());
+                } catch (IOException e) {
+                    System.out.println("client break");
+                    flag = false;
+                }
+            }
         }
     }
 
@@ -87,6 +106,7 @@ public class SimpleChat {
     public static void main(String[] args) {
         ChatFrame chatFrame = new ChatFrame();
         chatFrame.setVisible(true);
+        
     }
     
 }
