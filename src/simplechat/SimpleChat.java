@@ -10,10 +10,12 @@ import simplechat.ChatFrame;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+
+import javax.swing.JTextArea;
+
 
 /**
  *
@@ -22,11 +24,13 @@ import java.util.ArrayList;
 public class SimpleChat {
     private final ArrayList<Socket> clients;
     private final int port = 6543;
+    private final JTextArea textArea;
     private DataOutputStream output;
     private Socket socket;
     
-    public SimpleChat() {
+    public SimpleChat(JTextArea textArea) {
         this.clients = new ArrayList();
+        this.textArea = textArea;
     }
     
     public void listen() {
@@ -85,7 +89,7 @@ public class SimpleChat {
         }
         
         @Override
-        public void run() {
+        public synchronized void run() {
             boolean flag = true;
             
             System.out.println("listen..." + this.socket.getInetAddress());
@@ -103,7 +107,8 @@ public class SimpleChat {
                         }
                         
                     }else if(data[0].equals("/msg")) {
-                        System.out.println(this.name + ": " + data[1]);
+                        textArea.append(this.name + ": " + data[1] + "\n");
+                        
                     }
                     
                 } catch (IOException e) {

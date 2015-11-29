@@ -19,7 +19,7 @@ public class ChatFrame extends javax.swing.JFrame {
         
         this.MessageText.setEnabled(false);
         this.SendBtn.setEnabled(false);
-        this.simpleChat = new SimpleChat();
+        this.simpleChat = new SimpleChat(this.MessageTextArea);
     }
     
     /**
@@ -193,6 +193,7 @@ public class ChatFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ChatFrame().setVisible(true);
             }
