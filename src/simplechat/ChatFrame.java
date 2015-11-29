@@ -10,6 +10,7 @@ package simplechat;
  */
 public class ChatFrame extends javax.swing.JFrame {
     private final SimpleChat simpleChat;
+    private boolean serverFlag;
     
     /**
      * Creates new form ChatFrame
@@ -134,6 +135,8 @@ public class ChatFrame extends javax.swing.JFrame {
     private void ListenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListenBtnActionPerformed
         this.simpleChat.listen();
         
+        this.serverFlag = true;
+        
         this.ListenBtn.setEnabled(false);
         
         this.MessageText.setEnabled(true);
@@ -142,6 +145,10 @@ public class ChatFrame extends javax.swing.JFrame {
 
     private void ConnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectBtnActionPerformed
         this.simpleChat.connect(this.addressText.getText());
+        this.simpleChat.listenFromServer();
+        
+        this.serverFlag = false;
+        
         this.simpleChat.sendCommand("setname " + this.NickNameText.getText());
         
         this.ConnectBtn.setEnabled(false);
@@ -153,13 +160,25 @@ public class ChatFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ConnectBtnActionPerformed
 
     private void SendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendBtnActionPerformed
-        this.simpleChat.sendMessage(this.MessageText.getText());
+        if(this.serverFlag == true) {
+            this.MessageTextArea.append(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+            this.simpleChat.broadcast(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+        }else {
+            this.simpleChat.sendMessage(this.MessageText.getText());
+        }
+        
         this.MessageText.setText("");
     }//GEN-LAST:event_SendBtnActionPerformed
 
     private void MessageTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_MessageTextKeyPressed
         if(evt.getKeyCode() == 10) {
-            this.simpleChat.sendMessage(this.MessageText.getText());
+            if (this.serverFlag == true) {
+                this.MessageTextArea.append(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+                this.simpleChat.broadcast(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+            } else {
+                this.simpleChat.sendMessage(this.MessageText.getText());
+            }
+            
             this.MessageText.setText("");
         }
     }//GEN-LAST:event_MessageTextKeyPressed

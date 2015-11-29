@@ -38,6 +38,27 @@ public class SimpleChat {
         ListenThread.start();
     }
     
+    public void listenFromServer() {
+        Thread listenFromServerThread = new Thread(new ListenFromServerRunnable());
+        listenFromServerThread.start();
+    }
+    
+    private class ListenFromServerRunnable implements Runnable {
+        @Override
+        public synchronized void run() {
+            try {
+                DataInputStream inputFromServer = new DataInputStream(socket.getInputStream());
+                
+                while(true) {
+                    textArea.append(inputFromServer.readUTF());
+                }
+                
+            } catch (IOException e) {
+                System.out.println("Listen from server failed:" + e.getMessage());
+            }
+        }
+    }
+    
     private class ListenRunnable implements Runnable {
         private ServerSocket server;
         
@@ -149,10 +170,13 @@ public class SimpleChat {
     }
     
     public void broadcast(String message) {
+        System.out.println("broadcast...");
+        
         try {
             for (Socket client : this.clients) {
+                System.out.println(client.getRemoteSocketAddress());
                 DataOutputStream outputTemp = new DataOutputStream(client.getOutputStream());
-                outputTemp.writeUTF("/msg " + message);
+                outputTemp.writeUTF(message);
                 outputTemp.flush();
             }
         } catch (IOException e) {
