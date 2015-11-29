@@ -120,8 +120,7 @@ public class SimpleChat {
                     String[] data = this.input.readUTF().split(" ", 2);
                     
                     if(data[0].equals("/cmd")) {
-                        
-                        switch(data[1]) {
+                        switch(data[1].split(" ")[0]) {
                             case "setname":
                                 this.name = data[1].split(" ")[1];
                                 break;
