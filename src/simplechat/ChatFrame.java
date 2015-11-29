@@ -17,6 +17,8 @@ public class ChatFrame extends javax.swing.JFrame {
     public ChatFrame() {
         initComponents();
         
+        this.MessageText.setEnabled(false);
+        this.SendBtn.setEnabled(false);
         this.simpleChat = new SimpleChat();
     }
     
@@ -61,6 +63,12 @@ public class ChatFrame extends javax.swing.JFrame {
         });
 
         AttenderBtn.setText("Attender");
+
+        MessageText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                MessageTextKeyPressed(evt);
+            }
+        });
 
         SendBtn.setText("Send");
         SendBtn.setToolTipText("");
@@ -125,18 +133,36 @@ public class ChatFrame extends javax.swing.JFrame {
 
     private void ListenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListenBtnActionPerformed
         this.simpleChat.listen();
+        
+        this.ListenBtn.setEnabled(false);
+        
+        this.MessageText.setEnabled(true);
+        this.SendBtn.setEnabled(true);
     }//GEN-LAST:event_ListenBtnActionPerformed
 
     private void ConnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectBtnActionPerformed
-        
         this.simpleChat.connect(this.addressText.getText());
         this.simpleChat.sendCommand("setname " + this.NickNameText.getText());
+        
+        this.ConnectBtn.setEnabled(false);
+        this.addressText.setEnabled(false);
+        this.NickNameText.setEnabled(false);
+        
+        this.MessageText.setEnabled(true);
+        this.SendBtn.setEnabled(true);
     }//GEN-LAST:event_ConnectBtnActionPerformed
 
     private void SendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendBtnActionPerformed
         this.simpleChat.sendMessage(this.MessageText.getText());
         this.MessageText.setText("");
     }//GEN-LAST:event_SendBtnActionPerformed
+
+    private void MessageTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_MessageTextKeyPressed
+        if(evt.getKeyCode() == 10) {
+            this.simpleChat.sendMessage(this.MessageText.getText());
+            this.MessageText.setText("");
+        }
+    }//GEN-LAST:event_MessageTextKeyPressed
 
     /**
      * @param args the command line arguments
