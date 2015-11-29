@@ -123,7 +123,7 @@ public class SimpleChat {
                         
                         switch(data[1]) {
                             case "setname":
-                                this.name = data[2];
+                                this.name = data[1].split(" ")[1];
                                 break;
                         }
                         
@@ -134,6 +134,7 @@ public class SimpleChat {
                     
                 } catch (IOException e) {
                     System.out.println("client break");
+                    
                     flag = false;
                 }
             }
