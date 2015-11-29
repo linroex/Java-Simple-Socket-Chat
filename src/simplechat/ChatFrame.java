@@ -133,7 +133,7 @@ public class ChatFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ListenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListenBtnActionPerformed
-        this.simpleChat.listen();
+        this.simpleChat.listenFromClients();
         
         this.serverFlag = true;
         
@@ -152,7 +152,7 @@ public class ChatFrame extends javax.swing.JFrame {
         
         this.serverFlag = false;
         
-        this.simpleChat.sendCommand("setname " + this.NickNameText.getText());
+        this.simpleChat.sendCommandToServer("setname " + this.NickNameText.getText());
         
         this.ConnectBtn.setEnabled(false);
         this.ListenBtn.setEnabled(false);
@@ -168,19 +168,21 @@ public class ChatFrame extends javax.swing.JFrame {
             this.MessageTextArea.append(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
             this.simpleChat.broadcast(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
         }else {
-            this.simpleChat.sendMessage(this.MessageText.getText());
+            this.simpleChat.sendMessageToServer(this.MessageText.getText());
         }
         
         this.MessageText.setText("");
     }//GEN-LAST:event_SendBtnActionPerformed
 
     private void MessageTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_MessageTextKeyPressed
+        
+        // if press ENTER 
         if(evt.getKeyCode() == 10) {
             if (this.serverFlag == true) {
                 this.MessageTextArea.append(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
                 this.simpleChat.broadcast(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
             } else {
-                this.simpleChat.sendMessage(this.MessageText.getText());
+                this.simpleChat.sendMessageToServer(this.MessageText.getText());
             }
             
             this.MessageText.setText("");

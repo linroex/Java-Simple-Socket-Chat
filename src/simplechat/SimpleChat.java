@@ -33,9 +33,9 @@ public class SimpleChat {
         this.textArea = textArea;
     }
     
-    public void listen() {
-        Thread ListenThread = new Thread(new ListenRunnable(this.port));
-        ListenThread.start();
+    public void listenFromClients() {
+        Thread ListenFromClientsThread = new Thread(new ListenFromClientsRunnable(this.port));
+        ListenFromClientsThread.start();
     }
     
     public void listenFromServer() {
@@ -59,10 +59,10 @@ public class SimpleChat {
         }
     }
     
-    private class ListenRunnable implements Runnable {
+    private class ListenFromClientsRunnable implements Runnable {
         private ServerSocket server;
         
-        public ListenRunnable(int port) {
+        public ListenFromClientsRunnable(int port) {
             
             try {
                 this.server = new ServerSocket(port);
@@ -152,7 +152,7 @@ public class SimpleChat {
         }
     }
     
-    public void sendData(String str) {
+    public void sendDataToServer(String str) {
         try {
             this.output.writeUTF(str);
             this.output.flush();
@@ -161,20 +161,17 @@ public class SimpleChat {
         }
     }
     
-    public void sendCommand(String command) {
-        this.sendData("/cmd " + command);
+    public void sendCommandToServer(String command) {
+        this.sendDataToServer("/cmd " + command);
     }
     
-    public void sendMessage(String message) {
-        this.sendData("/msg " + message);
+    public void sendMessageToServer(String message) {
+        this.sendDataToServer("/msg " + message);
     }
     
     public void broadcast(String message) {
-        System.out.println("broadcast...");
-        
         try {
             for (Socket client : this.clients) {
-                System.out.println(client.getRemoteSocketAddress());
                 DataOutputStream outputTemp = new DataOutputStream(client.getOutputStream());
                 outputTemp.writeUTF(message);
                 outputTemp.flush();
