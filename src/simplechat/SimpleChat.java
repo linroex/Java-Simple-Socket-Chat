@@ -117,7 +117,7 @@ public class SimpleChat {
             
             while(flag) {
                 try {
-                    String[] data = this.input.readUTF().split(" ");
+                    String[] data = this.input.readUTF().split(" ", 2);
                     
                     if(data[0].equals("/cmd")) {
                         
