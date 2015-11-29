@@ -113,6 +113,15 @@ public class SimpleChat {
         }
     }
     
+    public void sendData(String str) {
+        try {
+            this.output.writeUTF(str);
+            this.output.flush();
+        } catch (IOException e) {
+            System.out.println("send data failed:" + e.getMessage());
+        }
+    }
+    
     public void sendCommand(String command) {
         
     }

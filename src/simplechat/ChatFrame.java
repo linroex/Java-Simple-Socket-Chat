@@ -125,6 +125,7 @@ public class ChatFrame extends javax.swing.JFrame {
     private void ConnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectBtnActionPerformed
         
         this.simpleChat.connect(this.addressText.getText());
+        this.simpleChat.sendData("Hello");
     }//GEN-LAST:event_ConnectBtnActionPerformed
 
     /**
