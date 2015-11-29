@@ -4,20 +4,25 @@
  * and open the template in the editor.
  */
 package simplechat;
-
 /**
  *
  * @author linroex
  */
 public class ChatFrame extends javax.swing.JFrame {
-
+    private final SimpleChat simpleChat;
+    private boolean serverFlag;
+    
     /**
      * Creates new form ChatFrame
      */
     public ChatFrame() {
         initComponents();
+        
+        this.MessageText.setEnabled(false);
+        this.SendBtn.setEnabled(false);
+        this.simpleChat = new SimpleChat(this.MessageTextArea);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,13 +50,34 @@ public class ChatFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(MessageTextArea);
 
         ListenBtn.setText("Listen");
+        ListenBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListenBtnActionPerformed(evt);
+            }
+        });
 
         ConnectBtn.setText("Connect");
+        ConnectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConnectBtnActionPerformed(evt);
+            }
+        });
 
         AttenderBtn.setText("Attender");
 
+        MessageText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                MessageTextKeyPressed(evt);
+            }
+        });
+
         SendBtn.setText("Send");
         SendBtn.setToolTipText("");
+        SendBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SendBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,6 +132,63 @@ public class ChatFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ListenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListenBtnActionPerformed
+        this.simpleChat.listenFromClients();
+        
+        this.serverFlag = true;
+        
+        this.ListenBtn.setEnabled(false);
+        this.NickNameText.setEnabled(false);
+        this.ConnectBtn.setEnabled(false);
+        this.addressText.setEnabled(false);
+        
+        this.MessageText.setEnabled(true);
+        this.SendBtn.setEnabled(true);
+    }//GEN-LAST:event_ListenBtnActionPerformed
+
+    private void ConnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectBtnActionPerformed
+        this.simpleChat.connect(this.addressText.getText());
+        this.simpleChat.listenFromServer();
+        
+        this.serverFlag = false;
+        
+        this.simpleChat.sendCommandToServer("setname " + this.NickNameText.getText());
+        
+        this.ConnectBtn.setEnabled(false);
+        this.ListenBtn.setEnabled(false);
+        this.addressText.setEnabled(false);
+        this.NickNameText.setEnabled(false);
+        
+        this.MessageText.setEnabled(true);
+        this.SendBtn.setEnabled(true);
+    }//GEN-LAST:event_ConnectBtnActionPerformed
+
+    private void SendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendBtnActionPerformed
+        if(this.serverFlag == true) {
+            this.MessageTextArea.append(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+            this.simpleChat.broadcast(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+        }else {
+            this.simpleChat.sendMessageToServer(this.MessageText.getText());
+        }
+        
+        this.MessageText.setText("");
+    }//GEN-LAST:event_SendBtnActionPerformed
+
+    private void MessageTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_MessageTextKeyPressed
+        
+        // if press ENTER 
+        if(evt.getKeyCode() == 10) {
+            if (this.serverFlag == true) {
+                this.MessageTextArea.append(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+                this.simpleChat.broadcast(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+            } else {
+                this.simpleChat.sendMessageToServer(this.MessageText.getText());
+            }
+            
+            this.MessageText.setText("");
+        }
+    }//GEN-LAST:event_MessageTextKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -135,6 +218,7 @@ public class ChatFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ChatFrame().setVisible(true);
             }

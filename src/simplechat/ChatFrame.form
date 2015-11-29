@@ -109,11 +109,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Listen"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ListenBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ConnectBtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Connect"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConnectBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="AttenderBtn">
       <Properties>
@@ -121,12 +127,18 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="MessageText">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="MessageTextKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="SendBtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Send"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SendBtnActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
