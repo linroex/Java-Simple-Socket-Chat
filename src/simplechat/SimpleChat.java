@@ -57,7 +57,7 @@ public class SimpleChat {
 
                     clients.add(socket);
 
-                    Thread ReceiverThread = new Thread(new ReceiverRunnable(socket, "name"));
+                    Thread ReceiverThread = new Thread(new ReceiverRunnable(socket));
                     ReceiverThread.start();
 
                 } catch (IOException e) {
@@ -69,12 +69,12 @@ public class SimpleChat {
     
     private class ReceiverRunnable implements Runnable {
         private final Socket socket;
-        private final String name;
+        private String name;
         private DataInputStream input;
                 
-        public ReceiverRunnable(Socket socket, String name) {
+        public ReceiverRunnable(Socket socket) {
             this.socket = socket;
-            this.name = name;
+            this.name = "None";
             
             try {
                 this.input = new DataInputStream(socket.getInputStream());
@@ -92,7 +92,20 @@ public class SimpleChat {
             
             while(flag) {
                 try {
-                    System.out.println(this.input.readUTF());
+                    String[] data = this.input.readUTF().split(" ");
+                    
+                    if(data[0].equals("/cmd")) {
+                        
+                        switch(data[1]) {
+                            case "setname":
+                                this.name = data[2];
+                                break;
+                        }
+                        
+                    }else if(data[0].equals("/msg")) {
+                        System.out.println(this.name + ": " + data[1]);
+                    }
+                    
                 } catch (IOException e) {
                     System.out.println("client break");
                     flag = false;

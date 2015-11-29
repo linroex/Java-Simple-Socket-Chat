@@ -64,6 +64,11 @@ public class ChatFrame extends javax.swing.JFrame {
 
         SendBtn.setText("Send");
         SendBtn.setToolTipText("");
+        SendBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SendBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,8 +130,13 @@ public class ChatFrame extends javax.swing.JFrame {
     private void ConnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectBtnActionPerformed
         
         this.simpleChat.connect(this.addressText.getText());
-        this.simpleChat.sendData("Hello");
+        this.simpleChat.sendCommand("setname " + this.NickNameText.getText());
     }//GEN-LAST:event_ConnectBtnActionPerformed
+
+    private void SendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendBtnActionPerformed
+        this.simpleChat.sendMessage(this.MessageText.getText());
+        this.MessageText.setText("");
+    }//GEN-LAST:event_SendBtnActionPerformed
 
     /**
      * @param args the command line arguments
