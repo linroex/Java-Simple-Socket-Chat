@@ -123,11 +123,11 @@ public class SimpleChat {
     }
     
     public void sendCommand(String command) {
-        
+        this.sendData("/cmd " + command);
     }
     
     public void sendMessage(String message) {
-        
+        this.sendData("/msg " + message);
     }
 
     /**
