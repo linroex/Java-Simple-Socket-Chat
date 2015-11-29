@@ -138,6 +138,8 @@ public class ChatFrame extends javax.swing.JFrame {
         this.serverFlag = true;
         
         this.ListenBtn.setEnabled(false);
+        this.ConnectBtn.setEnabled(false);
+        this.addressText.setEnabled(false);
         
         this.MessageText.setEnabled(true);
         this.SendBtn.setEnabled(true);
@@ -152,6 +154,7 @@ public class ChatFrame extends javax.swing.JFrame {
         this.simpleChat.sendCommand("setname " + this.NickNameText.getText());
         
         this.ConnectBtn.setEnabled(false);
+        this.ListenBtn.setEnabled(false);
         this.addressText.setEnabled(false);
         this.NickNameText.setEnabled(false);
         
