@@ -23,6 +23,7 @@ public class SimpleChat {
     private final ArrayList<Socket> clients;
     private final int port = 6543;
     private DataOutputStream output;
+    private Socket socket;
     
     public SimpleChat() {
         this.clients = new ArrayList();
@@ -98,6 +99,26 @@ public class SimpleChat {
                 }
             }
         }
+    }
+    
+    public void connect(String address) {
+        try {
+            this.socket = new Socket(address, this.port);
+
+            System.out.println("Connection success");
+            
+            this.output = new DataOutputStream(this.socket.getOutputStream());
+        } catch (IOException e) {
+            System.out.println("Connect server error:" + e.getMessage());
+        }
+    }
+    
+    public void sendCommand(String command) {
+        
+    }
+    
+    public void sendMessage(String message) {
+        
     }
 
     /**

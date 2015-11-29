@@ -54,6 +54,11 @@ public class ChatFrame extends javax.swing.JFrame {
         });
 
         ConnectBtn.setText("Connect");
+        ConnectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConnectBtnActionPerformed(evt);
+            }
+        });
 
         AttenderBtn.setText("Attender");
 
@@ -116,6 +121,11 @@ public class ChatFrame extends javax.swing.JFrame {
     private void ListenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListenBtnActionPerformed
         this.simpleChat.listen();
     }//GEN-LAST:event_ListenBtnActionPerformed
+
+    private void ConnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectBtnActionPerformed
+        
+        this.simpleChat.connect(this.addressText.getText());
+    }//GEN-LAST:event_ConnectBtnActionPerformed
 
     /**
      * @param args the command line arguments
