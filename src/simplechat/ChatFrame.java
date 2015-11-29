@@ -138,6 +138,7 @@ public class ChatFrame extends javax.swing.JFrame {
         this.serverFlag = true;
         
         this.ListenBtn.setEnabled(false);
+        this.NickNameText.setEnabled(false);
         this.ConnectBtn.setEnabled(false);
         this.addressText.setEnabled(false);
         
