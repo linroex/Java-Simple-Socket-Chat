@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package simplechat;
+
+import javax.swing.text.DefaultCaret;
+
 /**
  *
  * @author linroex
@@ -175,6 +178,11 @@ public class ChatFrame extends javax.swing.JFrame {
         this.SendBtn.setEnabled(true);
     }//GEN-LAST:event_ConnectBtnActionPerformed
 
+    private void autoDetectTextAreaSize() {
+        DefaultCaret caret = (DefaultCaret) this.MessageTextArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    }
+    
     private void SendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendBtnActionPerformed
         if(this.serverFlag == true) {
             this.MessageTextArea.append(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
@@ -182,6 +190,8 @@ public class ChatFrame extends javax.swing.JFrame {
         }else {
             this.simpleChat.sendMessageToServer(this.MessageText.getText());
         }
+        
+        this.autoDetectTextAreaSize();
         
         this.MessageText.setText("");
     }//GEN-LAST:event_SendBtnActionPerformed
@@ -196,6 +206,8 @@ public class ChatFrame extends javax.swing.JFrame {
             } else {
                 this.simpleChat.sendMessageToServer(this.MessageText.getText());
             }
+            
+            this.autoDetectTextAreaSize();
             
             this.MessageText.setText("");
         }
