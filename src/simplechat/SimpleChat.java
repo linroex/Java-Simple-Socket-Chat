@@ -82,7 +82,7 @@ public class SimpleChat {
 
                     clients.add(socket);
 
-                    Thread ReceiverThread = new Thread(new ReceiverRunnable(socket));
+                    Thread ReceiverThread = new Thread(new ReceiverRunnable(socket, clients.size() - 1));
                     ReceiverThread.start();
 
                 } catch (IOException e) {
@@ -96,10 +96,12 @@ public class SimpleChat {
         private final Socket socket;
         private String name;
         private DataInputStream input;
-                
-        public ReceiverRunnable(Socket socket) {
+        private int index;
+        
+        public ReceiverRunnable(Socket socket, int index) {
             this.socket = socket;
             this.name = "None";
+            this.index = index;
             
             try {
                 this.input = new DataInputStream(socket.getInputStream());
@@ -133,8 +135,9 @@ public class SimpleChat {
                     
                 } catch (IOException e) {
                     System.out.println("client break");
-                    
                     flag = false;
+                    
+                    clients.remove(this.index);
                 }
             }
         }
