@@ -108,7 +108,7 @@ public class SimpleChat {
                         
                     }else if(data[0].equals("/msg")) {
                         textArea.append(this.name + ": " + data[1] + "\n");
-                        
+                        broadcast(this.name + ": " + data[1] + "\n");
                     }
                     
                 } catch (IOException e) {
@@ -146,6 +146,18 @@ public class SimpleChat {
     
     public void sendMessage(String message) {
         this.sendData("/msg " + message);
+    }
+    
+    public void broadcast(String message) {
+        try {
+            for (Socket client : this.clients) {
+                DataOutputStream outputTemp = new DataOutputStream(client.getOutputStream());
+                outputTemp.writeUTF("/msg " + message);
+                outputTemp.flush();
+            }
+        } catch (IOException e) {
+            System.out.println("Broadcast failed:" + e.getMessage());
+        }
     }
 
     /**
