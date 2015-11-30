@@ -5,6 +5,7 @@
  */
 package simplechat;
 
+import java.awt.Frame;
 import simplechat.ChatFrame;
 
 import java.io.DataInputStream;
@@ -15,6 +16,7 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 
 import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -57,7 +59,7 @@ public class SimpleChat {
                             textArea.append(data);
                             break;
                         case "/attender":
-                            // Attender show
+                            JOptionPane.showMessageDialog(new Frame(), "test");
                             break;
                     }
                     
@@ -138,11 +140,11 @@ public class SimpleChat {
                             this.name = columns[1];
                             break;
                         case "/attender":
-                            this.output.writeUTF(clients.toString());
+                            this.output.writeUTF("/attender " + clients.toString());
                             break;
                         case "/msg":
                             textArea.append(this.name + ": " + columns[1] + "\n");
-                            broadcast(this.name + ": " + columns[1] + "\n");
+                            broadcast("/msg" + this.name + ": " + columns[1] + "\n");
                             break;
                             
                     }
