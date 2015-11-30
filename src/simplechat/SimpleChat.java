@@ -38,6 +38,8 @@ public class SimpleChat {
     public void listenFromClients() {
         Thread ListenFromClientsThread = new Thread(new ListenFromClientsRunnable(this.port));
         ListenFromClientsThread.start();
+        
+        this.textArea.append("Start listen... \n");
     }
     
     public void listenFromServer() {
@@ -96,7 +98,7 @@ public class SimpleChat {
                     Socket socket = this.server.accept();
 
                     System.out.println("Connect success:" + socket.getInetAddress());
-
+                    
                     clients.add(socket);
 
                     Thread ReceiverThread = new Thread(new ReceiverRunnable(socket, clients.size() - 1));
@@ -143,6 +145,8 @@ public class SimpleChat {
                     switch(columns[0]) {
                         case "/setname":
                             this.name = columns[1];
+                            textArea.append("User " + this.name + " connected \n");
+                            
                             break;
                         case "/attender":
                             this.output.writeUTF("/attender " + getAttender());
@@ -156,6 +160,9 @@ public class SimpleChat {
                     
                 } catch (IOException e) {
                     System.out.println("client break");
+                    textArea.append("User " + this.name + " break \n");
+                    broadcast("/msg " + "User " + this.name + " break \n");
+                    
                     flag = false;
                     
                     clients.remove(this.index);
@@ -169,6 +176,7 @@ public class SimpleChat {
             this.socket = new Socket(address, this.port);
 
             System.out.println("Connection success");
+            this.textArea.append("Connect to server success \n");
             
             this.output = new DataOutputStream(this.socket.getOutputStream());
         } catch (IOException e) {
