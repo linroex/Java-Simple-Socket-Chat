@@ -45,6 +45,10 @@ public class SimpleChat {
         listenFromServerThread.start();
     }
     
+    public String getAttender() {
+        return this.clients.toString();
+    }
+    
     private class ListenFromServerRunnable implements Runnable {
         @Override
         public synchronized void run() {
@@ -60,7 +64,7 @@ public class SimpleChat {
                             textArea.append(columns[1]);
                             break;
                         case "/attender":
-                            JOptionPane.showMessageDialog(new Frame(), "test");
+                            JOptionPane.showMessageDialog(new Frame(), columns[1]);
                             break;
                     }
                     
@@ -141,7 +145,7 @@ public class SimpleChat {
                             this.name = columns[1];
                             break;
                         case "/attender":
-                            this.output.writeUTF("/attender " + clients.toString());
+                            this.output.writeUTF("/attender " + getAttender());
                             break;
                         case "/msg":
                             textArea.append(this.name + ": " + columns[1] + "\n");

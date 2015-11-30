@@ -5,6 +5,8 @@
  */
 package simplechat;
 
+import java.awt.Frame;
+import javax.swing.JOptionPane;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -182,7 +184,7 @@ public class ChatFrame extends javax.swing.JFrame {
         this.MessageText.setEnabled(true);
         this.SendBtn.setEnabled(true);
     }//GEN-LAST:event_ConnectBtnActionPerformed
-
+    
     private void autoDetectTextAreaScroll() {
         DefaultCaret caret = (DefaultCaret) this.MessageTextArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -219,7 +221,12 @@ public class ChatFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_MessageTextKeyPressed
 
     private void AttenderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AttenderBtnActionPerformed
-        this.simpleChat.sendCommandToServer("/attender", "");
+        if(this.serverFlag == true) {
+            JOptionPane.showMessageDialog(new Frame(), this.simpleChat.getAttender());
+        } else {
+            this.simpleChat.sendCommandToServer("/attender", "");
+        }
+        
     }//GEN-LAST:event_AttenderBtnActionPerformed
 
     /**
