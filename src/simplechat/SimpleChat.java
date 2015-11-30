@@ -50,7 +50,17 @@ public class SimpleChat {
                 DataInputStream inputFromServer = new DataInputStream(socket.getInputStream());
                 
                 while(true) {
-                    textArea.append(inputFromServer.readUTF());
+                    String data = inputFromServer.readUTF();
+                    
+                    switch(data.split(" ")[0]) {
+                        case "/msg":
+                            textArea.append(data);
+                            break;
+                        case "/attender":
+                            // Attender show
+                            break;
+                    }
+                    
                 }
                 
             } catch (IOException e) {
@@ -94,8 +104,9 @@ public class SimpleChat {
     
     private class ReceiverRunnable implements Runnable {
         private final Socket socket;
+        private final DataInputStream input;
+        private final DataOutputStream output;
         private String name;
-        private DataInputStream input;
         private int index;
         
         public ReceiverRunnable(Socket socket, int index) {
@@ -105,8 +116,8 @@ public class SimpleChat {
             
             try {
                 this.input = new DataInputStream(socket.getInputStream());
+                this.output = new DataOutputStream(socket.getOutputStream());
             } catch (IOException e) {
-                
                 System.out.println("Receiver socket input stream failed:" + e.getMessage());
             }
         }
@@ -119,18 +130,21 @@ public class SimpleChat {
             
             while(flag) {
                 try {
-                    String[] data = this.input.readUTF().split(" ", 2);
+                    String data = this.input.readUTF();
+                    String[] columns = data.split(" ");
                     
-                    if(data[0].equals("/cmd")) {
-                        switch(data[1].split(" ")[0]) {
-                            case "setname":
-                                this.name = data[1].split(" ")[1];
-                                break;
-                        }
-                        
-                    }else if(data[0].equals("/msg")) {
-                        textArea.append(this.name + ": " + data[1] + "\n");
-                        broadcast(this.name + ": " + data[1] + "\n");
+                    switch(columns[0]) {
+                        case "/setname":
+                            this.name = columns[1];
+                            break;
+                        case "/attender":
+                            this.output.writeUTF(clients.toString());
+                            break;
+                        case "/msg":
+                            textArea.append(this.name + ": " + columns[1] + "\n");
+                            broadcast(this.name + ": " + columns[1] + "\n");
+                            break;
+                            
                     }
                     
                 } catch (IOException e) {
@@ -164,8 +178,8 @@ public class SimpleChat {
         }
     }
     
-    public void sendCommandToServer(String command) {
-        this.sendDataToServer("/cmd " + command);
+    public void sendCommandToServer(String command, String data) {
+        this.sendDataToServer("/command " + data);
     }
     
     public void sendMessageToServer(String message) {

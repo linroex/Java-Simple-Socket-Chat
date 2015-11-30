@@ -69,6 +69,11 @@ public class ChatFrame extends javax.swing.JFrame {
         });
 
         AttenderBtn.setText("Attender");
+        AttenderBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AttenderBtnActionPerformed(evt);
+            }
+        });
 
         MessageText.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -167,7 +172,7 @@ public class ChatFrame extends javax.swing.JFrame {
         
         this.serverFlag = false;
         
-        this.simpleChat.sendCommandToServer("setname " + this.NickNameText.getText());
+        this.simpleChat.sendCommandToServer("setname", this.NickNameText.getText());
         
         this.ConnectBtn.setEnabled(false);
         this.ListenBtn.setEnabled(false);
@@ -212,6 +217,10 @@ public class ChatFrame extends javax.swing.JFrame {
             this.MessageText.setText("");
         }
     }//GEN-LAST:event_MessageTextKeyPressed
+
+    private void AttenderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AttenderBtnActionPerformed
+        this.simpleChat.sendCommandToServer("attender", "");
+    }//GEN-LAST:event_AttenderBtnActionPerformed
 
     /**
      * @param args the command line arguments
