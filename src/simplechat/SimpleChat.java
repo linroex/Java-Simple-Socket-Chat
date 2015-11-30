@@ -104,8 +104,8 @@ public class SimpleChat {
     
     private class ReceiverRunnable implements Runnable {
         private final Socket socket;
-        private final DataInputStream input;
-        private final DataOutputStream output;
+        private DataInputStream input;
+        private DataOutputStream output;
         private String name;
         private int index;
         
