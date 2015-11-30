@@ -172,7 +172,7 @@ public class ChatFrame extends javax.swing.JFrame {
         
         this.serverFlag = false;
         
-        this.simpleChat.sendCommandToServer("setname", this.NickNameText.getText());
+        this.simpleChat.sendCommandToServer("/setname ", this.NickNameText.getText());
         
         this.ConnectBtn.setEnabled(false);
         this.ListenBtn.setEnabled(false);
@@ -183,7 +183,7 @@ public class ChatFrame extends javax.swing.JFrame {
         this.SendBtn.setEnabled(true);
     }//GEN-LAST:event_ConnectBtnActionPerformed
 
-    private void autoDetectTextAreaSize() {
+    private void autoDetectTextAreaScroll() {
         DefaultCaret caret = (DefaultCaret) this.MessageTextArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
@@ -191,12 +191,12 @@ public class ChatFrame extends javax.swing.JFrame {
     private void SendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendBtnActionPerformed
         if(this.serverFlag == true) {
             this.MessageTextArea.append(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
-            this.simpleChat.broadcast(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+            this.simpleChat.broadcast("/msg " + this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
         }else {
             this.simpleChat.sendMessageToServer(this.MessageText.getText());
         }
         
-        this.autoDetectTextAreaSize();
+        this.autoDetectTextAreaScroll();
         
         this.MessageText.setText("");
     }//GEN-LAST:event_SendBtnActionPerformed
@@ -207,19 +207,19 @@ public class ChatFrame extends javax.swing.JFrame {
         if(evt.getKeyCode() == 10) {
             if (this.serverFlag == true) {
                 this.MessageTextArea.append(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
-                this.simpleChat.broadcast(this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
+                this.simpleChat.broadcast("/msg " + this.NickNameText.getText() + ": " + this.MessageText.getText() + "\n");
             } else {
                 this.simpleChat.sendMessageToServer(this.MessageText.getText());
             }
             
-            this.autoDetectTextAreaSize();
+            this.autoDetectTextAreaScroll();
             
             this.MessageText.setText("");
         }
     }//GEN-LAST:event_MessageTextKeyPressed
 
     private void AttenderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AttenderBtnActionPerformed
-        this.simpleChat.sendCommandToServer("attender", "");
+        this.simpleChat.sendCommandToServer("/attender", "");
     }//GEN-LAST:event_AttenderBtnActionPerformed
 
     /**

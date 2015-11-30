@@ -53,10 +53,11 @@ public class SimpleChat {
                 
                 while(true) {
                     String data = inputFromServer.readUTF();
+                    String[] columns = data.split(" ", 2);
                     
-                    switch(data.split(" ")[0]) {
+                    switch(columns[0]) {
                         case "/msg":
-                            textArea.append(data);
+                            textArea.append(columns[1]);
                             break;
                         case "/attender":
                             JOptionPane.showMessageDialog(new Frame(), "test");
@@ -133,7 +134,7 @@ public class SimpleChat {
             while(flag) {
                 try {
                     String data = this.input.readUTF();
-                    String[] columns = data.split(" ");
+                    String[] columns = data.split(" ", 2);
                     
                     switch(columns[0]) {
                         case "/setname":
@@ -144,7 +145,7 @@ public class SimpleChat {
                             break;
                         case "/msg":
                             textArea.append(this.name + ": " + columns[1] + "\n");
-                            broadcast("/msg" + this.name + ": " + columns[1] + "\n");
+                            broadcast("/msg " + this.name + ": " + columns[1] + "\n");
                             break;
                             
                     }
@@ -181,7 +182,7 @@ public class SimpleChat {
     }
     
     public void sendCommandToServer(String command, String data) {
-        this.sendDataToServer("/command " + data);
+        this.sendDataToServer(command + data);
     }
     
     public void sendMessageToServer(String message) {
